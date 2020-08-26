@@ -1,0 +1,5 @@
+# Ignore node_modules folder
+node_modules
+
+# Ignore Mac system files - Idk why this is here if I dont have a Mac
+.DS_store
