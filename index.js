@@ -188,7 +188,7 @@ function getTests() {
             choices: ["Yes", "No"],
             name: "choice"
         }]).then(function({ tests, choice }){
-            userParams.usage.push(tests);
+            userParams.tests.push(tests);
             pNum++;
             if (choice === "Yes") {
                 getTests();
@@ -213,7 +213,7 @@ function getSupport() {
             choices: ["Yes", "No"],
             name: "choice"
         }]).then(function({ support, choice }){
-            userParams.usage.push(support);
+            userParams.support.push(support);
             pNum++;
             if (choice === "Yes") {
                 getSupport();
@@ -258,6 +258,7 @@ async function readLicense(licenseChoice) {
       // Read from each file
       const licenseData = await readFileAsync('./license-options/' + licenseChoice + '.txt', 'utf8');
       userParams.license = licenseData;
+      buildFile();
     } catch(error) {
       console.log(error);
     }
@@ -277,15 +278,68 @@ function getLicenseInput() {
             choices: ["Yes", "No"],
             name: "choice"
         }]).then(function({ license, choice }){
-            userParams.usage.push(license);
+            userParams.license.push(license);
             pNum++;
             if (choice === "Yes") {
                 getLicenseInput();
             } else {
                 pNum = 1;
-                // Move on
+                buildFile();
             }
         })
 }
 
-  
+
+function buildFile() {
+    const newReadMe = `
+    # ${userParams.title}
+
+    [Deployed Site](${userParams.deployedURL})
+
+    ${userParams.badge}
+
+    ## Description
+
+    ${userParams.description}
+
+    ## Table of Contents
+
+    [Installation](#installation)
+    [Usage](#usage)
+    [Contributing](#contributing)
+    [Tests](#tests)
+    [Support](#support)
+    [License](#license)
+
+    ## Installation
+
+    ${userParams.installation}
+
+    ## Usage
+
+    ${userParams.usage}
+
+    ## Contributing
+
+    ${userParams.contributions}
+
+    ## Tests
+
+    ${userParams.tests}
+
+    ## Support
+
+    ${userParams.support}
+
+    ## License
+
+    ${userParams.license}
+    `
+
+    fs.writeFile("./Generated-Files/README.md", newReadMe, function(err) {
+        if (err) {
+          return console.log(err);
+        }
+        console.log("\n Your README has succesfully been created! \n You can find your file in the Generated-Files folder.");
+      });
+}
