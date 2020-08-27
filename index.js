@@ -2,7 +2,22 @@ const fs = require("fs");
 // const axios = require("axios");
 const inquirer = require("inquirer");
 
-// Request title - This runs first
+// Kick off the program
+getTitle();
+
+var userParams = {
+    title: "",
+    badge: [],
+    description: "",
+    installation: "",
+    usage: "",
+    license: "",
+    contributions: "",
+    tests: "",
+    support: ""
+}
+
+// Request title
 function getTitle() {
     inquirer
       .prompt([
@@ -10,7 +25,9 @@ function getTitle() {
             message: "Enter project Title: ",
             name: "title"
         }]).then(function({ title }) {
+            userParams.title = title;
             console.log(title);
+            console.log(userParams.title);
             getBadge();
         });
 }
@@ -28,18 +45,20 @@ function getBadge() {
             choices: ["Yes", "No"],
             name: "choiceBadge"
         }]).then(function({ badge, choiceBadge }){
+            userParams.badge.push(badge);
             if (choiceBadge === "Yes") {
                 console.log(badge);
                 console.log("Do it again...");
                 getBadge();
             } else {
                 console.log(badge);
+                console.log(userParams.badge);
                 console.log("Done... Yo It worked!");
             }
         })
 }
 
-getTitle();    
+
 
 
 
