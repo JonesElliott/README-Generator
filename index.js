@@ -169,6 +169,56 @@ function getContributions() {
                 getContributions();
             } else {
                 pNum = 1;
+                getTests();
+            }
+        })
+}
+
+// Request test paragraph(s)
+function getTests() {
+    inquirer
+      .prompt([
+        {
+            message: "Tests | Paragraph #" + pNum + ": ",
+            name: "tests"
+        },
+        {   // This gives the user an option to add another paragraph or continue
+            type: 'list',
+            message: "Add another paragraph?",
+            choices: ["Yes", "No"],
+            name: "choice"
+        }]).then(function({ tests, choice }){
+            userParams.usage.push(tests);
+            pNum++;
+            if (choice === "Yes") {
+                getTests();
+            } else {
+                pNum = 1;
+                getSupport();
+            }
+        })
+}
+
+// Request support paragraph(s)
+function getSupport() {
+    inquirer
+      .prompt([
+        {
+            message: "Support | Paragraph #" + pNum + ": ",
+            name: "support"
+        },
+        {   // This gives the user an option to add another paragraph or continue
+            type: 'list',
+            message: "Add another paragraph?",
+            choices: ["Yes", "No"],
+            name: "choice"
+        }]).then(function({ support, choice }){
+            userParams.usage.push(support);
+            pNum++;
+            if (choice === "Yes") {
+                getSupport();
+            } else {
+                pNum = 1;
                 getLicense();
             }
         })
