@@ -1,11 +1,6 @@
 // Variable Declarations
 const fs = require("fs");
 const inquirer = require("inquirer");
-const util = require("util");
-const Choices = require("inquirer/lib/objects/choices");
-const Choice = require("inquirer/lib/objects/choice");
-const readFileAsync = util.promisify(fs.readFile);
-const writeFileAsync = util.promisify(fs.writeFile);
 var pNum = 1; // to display paragraph numbers
 
 // Kick off the program
@@ -22,7 +17,7 @@ var userParams = {
     contributions: [],
     tests: [],
     support: [],
-    license: []
+    license: ""
 }
 
 // Request project's title
@@ -232,12 +227,14 @@ function getLicense() {
             type: 'list',
             message: "Select a license:",
             choices: [
-            "MIT", 
-            "GNU-GPLv3", 
-            "Mozilla", 
-            "Apache", 
-            "Boost", 
-            "Unlicense", 
+            "GNU AGPLv3", 
+            "GNU GPLv3", 
+            "GNU LGPLv3", 
+            "Mozilla Public License 2.0", 
+            "Apache License 2.0", 
+            "MIT License", 
+            "Boost Software License 1.0", 
+            "The Unlicense", 
             "I'll input my own",
             ],
             name: "licenseChoice"
@@ -247,22 +244,11 @@ function getLicense() {
                 getLicenseInput(); 
             } else {
                 // Set predefined license
-                readLicense(licenseChoice);
+                userParams.license = licenseChoice;
+                buildFile();
             }
         })
 }
-
-// retrieve the selected license
-async function readLicense(licenseChoice) {
-    try {
-      // Read from each file
-      const licenseData = await readFileAsync('./license-options/' + licenseChoice + '.txt', 'utf8');
-      userParams.license = licenseData;
-      buildFile();
-    } catch(error) {
-      console.log(error);
-    }
-  }
 
 // Request user defined license
 function getLicenseInput() {
@@ -289,7 +275,7 @@ function getLicenseInput() {
         })
 }
 
-
+// Build the file with user parameters
 function buildFile() {
 const newReadMe = `
 # ${userParams.title}
@@ -333,12 +319,12 @@ ${userParams.support.join('\n\n')}
 
 ## License
 
-${userParams.license}`
+This project is licensed under the ${userParams.license}.`
 
     fs.writeFile("./Generated-Files/README.md", newReadMe, function(err) {
         if (err) {
           return console.log(err);
         }
-        console.log("\n Your README has succesfully been created! \n You can find your file in the Generated-Files folder.");
-      });
+        console.log("\n Your README has succesfully been created! \n You can find your file in the Generated-Files folder. \n\n");
+    });
 }
