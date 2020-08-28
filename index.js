@@ -291,50 +291,49 @@ function getLicenseInput() {
 
 
 function buildFile() {
-    const newReadMe = `
-    # ${userParams.title}
+const newReadMe = `
+# ${userParams.title}
 
-    [Deployed Site](${userParams.deployedURL})
+[Deployed Site](${userParams.deployedURL})
 
-    ${userParams.badge}
+${userParams.badge}
 
-    ## Description
+## Description
 
-    ${userParams.description}
+${userParams.description.join('\n\n')}
 
-    ## Table of Contents
+## Table of Contents
 
-    [Installation](#installation)
-    [Usage](#usage)
-    [Contributing](#contributing)
-    [Tests](#tests)
-    [Support](#support)
-    [License](#license)
+[Installation](#installation)
+[Usage](#usage)
+[Contributing](#contributing)
+[Tests](#tests)
+[Support](#support)
+[License](#license)
 
-    ## Installation
+## Installation
 
-    ${userParams.installation}
+${userParams.installation.join('\n\n')}
 
-    ## Usage
+## Usage
 
-    ${userParams.usage}
+${userParams.usage.join('\n\n')}
 
-    ## Contributing
+## Contributing
 
-    ${userParams.contributions}
+${userParams.contributions.join('\n\n')}
 
-    ## Tests
+## Tests
 
-    ${userParams.tests}
+${userParams.tests.join('\n\n')}
 
-    ## Support
+## Support
 
-    ${userParams.support}
+${userParams.support.join('\n\n')}
 
-    ## License
+## License
 
-    ${userParams.license}
-    `
+${userParams.license}`
 
     fs.writeFile("./Generated-Files/README.md", newReadMe, function(err) {
         if (err) {
