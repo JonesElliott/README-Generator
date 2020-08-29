@@ -227,9 +227,7 @@ function getLicense() {
             type: 'list',
             message: "Select a license:",
             choices: [
-            "GNU AGPLv3", 
             "GNU GPLv3", 
-            "GNU LGPLv3", 
             "Mozilla Public License 2.0", 
             "Apache License 2.0", 
             "MIT License", 
@@ -245,9 +243,37 @@ function getLicense() {
             } else {
                 // Set predefined license
                 userParams.license = licenseChoice;
+                getLicenseBadge(licenseChoice);
                 buildFile();
             }
         })
+}
+
+// Sets badge based on user chosen license
+function getLicenseBadge(licenseChoice) {
+    switch (licenseChoice) {
+        case "GNU GPLv3":
+            userParams.badge.push('![shields.io badge](https://img.shields.io/badge/License-GNU%20GPLv3-blue)');
+            break;
+        case "Mozilla Public License 2.0":
+            userParams.badge.push('![shields.io badge](https://img.shields.io/badge/License-Mozilla%20Public%202.0-blue)');
+            break;
+        case "Apache License 2.0":
+            userParams.badge.push('![shields.io badge](https://img.shields.io/badge/License-Apache%202.0-blue)');
+            break;
+        case "MIT License":
+            userParams.badge.push('![shields.io badge](https://img.shields.io/badge/License-MIT-green)');
+            break;
+        case "Boost Software License 1.0":
+            userParams.badge.push('![shields.io badge](https://img.shields.io/badge/License-Boost%20Software%201.0-blue)');
+            break;
+        case "The Unlicense":
+            userParams.badge.push('![shields.io badge](https://img.shields.io/badge/License-The%20Unlicense-blue)');
+            break;
+        default:
+            console.log('No license was chosen');
+            break;
+    }
 }
 
 // Request user defined license
@@ -282,7 +308,7 @@ const newReadMe = `
 
 [Deployed Site](${userParams.deployedURL})
 
-${userParams.badge}
+${userParams.badge.join(' ')}
 
 ## Description
 
