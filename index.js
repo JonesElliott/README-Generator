@@ -22,6 +22,13 @@ var userParams = {
 
 // Request project's title
 function getTitle() {
+    console.log(`
+==============================================================
+              Welcome to the README Generator
+  Follow the prompts to complete each section of the README
+      ***Custom markdown formatting may be applied***
+==============================================================
+    `);
     inquirer
       .prompt([
         {
@@ -60,7 +67,7 @@ function getBadge() {
             choices: ["Yes", "No"],
             name: "choice"
         }]).then(function({ badge, choice }){
-            userParams.badge.push(badge);
+            userParams.badge.push(`![Read Me Badge](${badge})`);
             if (choice === "Yes") {
                 getBadge();
             } else {
@@ -301,138 +308,70 @@ function getLicenseInput() {
         })
 }
 
-// Check if the user entered parameters and format code accordingly
-function checkEmptyParams() {
-    // Deployed URL
+// Build the file with user parameters
+function buildFile() {
+    var deployedSite = "";
+
     if (userParams.deployedURL.length > 0) {
         deployedSite = "[Deployed Site](" + userParams.deployedURL + ")";
     } else {
         deployedSite = "";
     }
 
-    // Description
-    if (userParams.description.length > 0) {
-        description = `
-## Description
-
-${userParams.description.join('\n\n')}
-        `;
-    } else {
-        description = "";
-    }
-
-    // Installation
-    if (userParams.installation.length > 0) {
-        installation = `
-## Installation
-
-${userParams.installation.join('\n\n')}
-        `;
-    } else {
-        installation = "";
-    }
-
-    // Usage
-    if (userParams.usage.length > 0) {
-        usage = `
-## Usage
-
-${userParams.usage.join('\n\n')}
-        `;
-    } else {
-        usage = "";
-    }
-
-    // Contributing
-    if (userParams.contributions.length > 0) {
-        contributing = `
-## Contributing
-
-${userParams.contributions.join('\n\n')}
-        `;
-    } else {
-        contributing = "";
-    }
-
-    // Tests
-    if (userParams.tests.length > 0) {
-        tests = `
-## Tests
-
-${userParams.tests.join('\n\n')}
-        `;
-    } else {
-        tests = "";
-    }
-
-    // Support
-    if (userParams.support.length > 0) {
-        support = `
-## Support
-
-${userParams.support.join('\n\n')}
-        `;
-    } else {
-        support = "";
-    }
-}
-
-// Build the file with user parameters
-function buildFile() {
-    var deployedSite = "";
-    var description = "";
-    var installation = "";
-    var usage = "";
-    var contributing = "";
-    var tests = "";
-    var support = "";
-    // var toc = [];
-
-    checkEmptyParams();
-    
-
-    const newReadMe = `
+const newReadMe = `
 # ${userParams.title}
 
 ${deployedSite}
 
 ${userParams.badge.join(' ')}
 
-${description}
+## Description
+
+${userParams.description.join('\n\n')}
 
 ## Table of Contents
 
-[Installation](#installation)
-[Usage](#usage)
-[Contributing](#contributing)
-[Tests](#tests)
-[Support](#support)
-[License](#license)
+* [Installation](#installation)
+* [Usage](#usage)
+* [Contributing](#contributing)
+* [Tests](#tests)
+* [Support](#support)
+* [License](#license)
 
-${installation}
+## Installation
 
-${usage}
+${userParams.installation.join('\n\n')}
 
-${contributing}
+## Usage
 
-${tests}
+${userParams.usage.join('\n\n')}
 
-${support}
+## Contributing
+
+${userParams.contributions.join('\n\n')}
+
+## Tests
+
+${userParams.tests.join('\n\n')}
+
+## Support
+
+${userParams.support.join('\n\n')}
 
 ## License
 
-This project is licensed under the ${userParams.license}.
-`
-    // Writing the file
+This project is licensed under the ${userParams.license}.`
+
     fs.writeFile("./Generated-Files/README.md", newReadMe, function(err) {
         if (err) {
           return console.log(err);
         }
         console.log(`
-=================================================================================
-                    README has succesfully been created!
-    You can find your file here ./README-Generator/Generated-Files/README.md
-=================================================================================
-`);
+==============================================================
+            README has succesfully been created!
+     You can find your file in the Generated-Files folder
+        (./README-Generator/Generated-Files/README.md).
+==============================================================
+        `);
     });
 }
