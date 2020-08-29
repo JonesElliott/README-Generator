@@ -23,7 +23,7 @@ Download and save the README-Generator folder in your favorite directory.
 
 ## Usage
 
-Using your preferred console, navigate to the program's root folder (./README-Generator/). Execute the create-file.js using node ``node .\create-file.js`` to run the program. Follow the in console prompts to fill in each field of the README. Additional mark down formatting may be used in the input fields as needed for a more customized document. [This Video](./assets/RMGen-Demo.mp4) demonstrates the use of the program through powershell.
+Using your preferred console, navigate to the program's root folder (./README-Generator/). Execute the create-file.js using node ``node .\create-file.js`` to run the program. Follow the in console prompts to fill in each field of the README. Additional mark down formatting may be used in the input fields as needed for a more customized document. [This Video](https://drive.google.com/file/d/1acU2CHdCoOnyn1I0MJrUBS4jIMHxfPYP/view) demonstrates the use of the program through powershell.
 
 ![console example](./assets/console-example.PNG)
 
