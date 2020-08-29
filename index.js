@@ -301,18 +301,104 @@ function getLicenseInput() {
         })
 }
 
-// Build the file with user parameters
-function buildFile() {
-const newReadMe = `
-# ${userParams.title}
+// Check if the user entered parameters and format code accordingly
+function checkEmptyParams() {
+    // Deployed URL
+    if (userParams.deployedURL.length > 0) {
+        deployedSite = "[Deployed Site](" + userParams.deployedURL + ")";
+    } else {
+        deployedSite = "";
+    }
 
-[Deployed Site](${userParams.deployedURL})
-
-${userParams.badge.join(' ')}
-
+    // Description
+    if (userParams.description.length > 0) {
+        description = `
 ## Description
 
 ${userParams.description.join('\n\n')}
+        `;
+    } else {
+        description = "";
+    }
+
+    // Installation
+    if (userParams.installation.length > 0) {
+        installation = `
+## Installation
+
+${userParams.installation.join('\n\n')}
+        `;
+    } else {
+        installation = "";
+    }
+
+    // Usage
+    if (userParams.usage.length > 0) {
+        usage = `
+## Usage
+
+${userParams.usage.join('\n\n')}
+        `;
+    } else {
+        usage = "";
+    }
+
+    // Contributing
+    if (userParams.contributions.length > 0) {
+        contributing = `
+## Contributing
+
+${userParams.contributions.join('\n\n')}
+        `;
+    } else {
+        contributing = "";
+    }
+
+    // Tests
+    if (userParams.tests.length > 0) {
+        tests = `
+## Tests
+
+${userParams.tests.join('\n\n')}
+        `;
+    } else {
+        tests = "";
+    }
+
+    // Support
+    if (userParams.support.length > 0) {
+        support = `
+## Support
+
+${userParams.support.join('\n\n')}
+        `;
+    } else {
+        support = "";
+    }
+}
+
+// Build the file with user parameters
+function buildFile() {
+    var deployedSite = "";
+    var description = "";
+    var installation = "";
+    var usage = "";
+    var contributing = "";
+    var tests = "";
+    var support = "";
+    // var toc = [];
+
+    checkEmptyParams();
+    
+
+    const newReadMe = `
+# ${userParams.title}
+
+${deployedSite}
+
+${userParams.badge.join(' ')}
+
+${description}
 
 ## Table of Contents
 
@@ -323,34 +409,30 @@ ${userParams.description.join('\n\n')}
 [Support](#support)
 [License](#license)
 
-## Installation
+${installation}
 
-${userParams.installation.join('\n\n')}
+${usage}
 
-## Usage
+${contributing}
 
-${userParams.usage.join('\n\n')}
+${tests}
 
-## Contributing
-
-${userParams.contributions.join('\n\n')}
-
-## Tests
-
-${userParams.tests.join('\n\n')}
-
-## Support
-
-${userParams.support.join('\n\n')}
+${support}
 
 ## License
 
-This project is licensed under the ${userParams.license}.`
-
+This project is licensed under the ${userParams.license}.
+`
+    // Writing the file
     fs.writeFile("./Generated-Files/README.md", newReadMe, function(err) {
         if (err) {
           return console.log(err);
         }
-        console.log("\n Your README has succesfully been created! \n You can find your file in the Generated-Files folder. \n\n");
+        console.log(`
+=================================================================================
+                    README has succesfully been created!
+    You can find your file here ./README-Generator/Generated-Files/README.md
+=================================================================================
+`);
     });
 }
